@@ -1,53 +1,47 @@
-# Course Selling Backend App
+# 🎓 Course Selling App (Full Stack)
 
-This is a Node.js backend for a Course Selling Platform. It handles user/admin authentication, course management, and course purchasing. The project is built using **Express.js**, **MongoDB**, **JWT**, and **bcrypt**.
+A **full-stack Course Selling Platform** where users can browse and purchase courses, and admins can manage course content.  
+The project consists of a **Node.js + Express backend** and a **React frontend**, implementing authentication, authorization, and course management.
 
 ---
-
-## 📁 Folder Structure
-
-
 
 
 ---
 
 ## 🚀 Features
 
-- ✅ User and Admin Signup/Login (JWT)
-- ✅ Admin can create/update courses
-- ✅ User can view & purchase courses
-- ✅ Authentication middleware
-- ✅ MongoDB integration using Mongoose
+### 👤 User
+- User signup & login using JWT
+- View all available courses
+- Purchase courses
+- View purchased courses
+
+### 🛠️ Admin
+- Admin authentication
+- Create, update, and delete courses
+- Manage course listings
+
+### 🔐 Security
+- Password hashing using bcrypt
+- JWT-based authentication
+- Protected routes using middleware
 
 ---
 
 ## 🧠 Tech Stack
 
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB (Mongoose)
-- **Authentication**: JWT, bcrypt
-  
+### Frontend
+- React.js
+- Axios
+- CSS / Tailwind CSS (optional)
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+- JWT
+- bcrypt
+
 ---
 
-## 🔧 Installation
-
-```bash
-git clone https://github.com/Aditya4kushwaha/Backend-of-Course-Selling-App.git
-cd course-selling-backend
-npm install
-```
-## 🛠️ Setup
-
-Create a `.env` file in the root directory and add:
-
-```env
-PORT=3000
-MONGO_URI=WRITEYOURMONGODBURI
-JWT_SECRET=your_jwt_secret
-```
-
-## Run the backend server
-```bash
-npm start        # For production use
-npm run dev      # Requires nodemon
 
