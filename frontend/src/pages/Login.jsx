@@ -18,11 +18,9 @@ const Login = () => {
       });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('isAdmin', isAdmin); // Optional: for checking role later
-      alert('Login successful!');
-      navigate(isAdmin ? '/create-course' : '/courses');
+      navigate(isAdmin ? '/admin/dashboard' : '/dashboard');
     } catch (error) {
       console.error(error);
-      alert('Login failed. Please check your credentials.');
     }
   };
 

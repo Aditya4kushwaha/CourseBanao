@@ -57,13 +57,27 @@ userRouter.post("/signin", async (req, res) => {
   }
 });
 
+userRouter.get("/me", userMiddleware, async (req, res) => {
+  const userId = req.userId;
+  const user = await userModel.findOne({ _id: userId });
+  if (user) {
+    res.json({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
+    });
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
+});
+
 userRouter.get("/purchases", userMiddleware, async (req, res) => {
   const userId = req.userId;
   const purchases = await purchaseModel.find({
     userId,
   });
 
-  const coursesData = await courseModel({
+  const coursesData = await courseModel.find({
     _id: { $in: purchases.map((x) => x.courseId) },
   });
   res.json({

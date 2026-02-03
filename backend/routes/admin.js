@@ -60,14 +60,29 @@ adminRouter.post("/signin", async (req, res) => {
   }
 });
 
+adminRouter.get("/me", adminMiddleware, async (req, res) => {
+  const adminId = req.userId;
+  const admin = await adminModel.findOne({ _id: adminId });
+  if (admin) {
+    res.json({
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      email: admin.email
+    });
+  } else {
+    res.status(404).json({ message: "Admin not found" });
+  }
+});
+
 adminRouter.post("/course", adminMiddleware, async (req, res) => {
   const adminId = req.userId;
-  const { title, description, imageUrl, price } = req.body;
+  const { title, description, imageUrl, price, date } = req.body;
   const course = await courseModel.create({
     title,
     description,
     imageUrl,
     price,
+    date,
     creatorId: adminId,
   });
   res.json({
@@ -78,7 +93,7 @@ adminRouter.post("/course", adminMiddleware, async (req, res) => {
 
 adminRouter.put("/course", adminMiddleware, async (req, res) => {
   const adminId = req.userId;
-  const { title, description, imageUrl, price, courseId } = req.body;
+  const { title, description, imageUrl, price, date, courseId } = req.body;
   const course = await courseModel.updateOne(
     {
       _id: courseId,
@@ -89,6 +104,7 @@ adminRouter.put("/course", adminMiddleware, async (req, res) => {
       description,
       imageUrl,
       price,
+      date,
     }
   );
   res.json({

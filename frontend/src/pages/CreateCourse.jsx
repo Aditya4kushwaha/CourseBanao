@@ -7,7 +7,8 @@ const CreateCourse = () => {
     title: '',
     description: '',
     price: '',
-    imageUrl: ''
+    imageUrl: '',
+    date: ''
   });
   const navigate = useNavigate();
 
@@ -24,11 +25,9 @@ const CreateCourse = () => {
           token: token
         }
       });
-      alert('Course created successfully!');
-      navigate('/courses');
+      navigate('/admin/dashboard');
     } catch (error) {
       console.error(error);
-      alert('Failed to create course.');
     }
   };
 
@@ -88,16 +87,28 @@ const CreateCourse = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-gray-700 mb-2 text-sm font-medium">Image URL</label>
-            <input 
-              type="url" 
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-900 placeholder-gray-400 transition"
-              placeholder="https://example.com/image.jpg"
-            />
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-gray-700 mb-2 text-sm font-medium">Course Logo URL</label>
+              <input 
+                type="url" 
+                name="imageUrl"
+                value={formData.imageUrl}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-900 placeholder-gray-400 transition"
+                placeholder="https://example.com/logo.jpg"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-2 text-sm font-medium">Launch Date</label>
+              <input 
+                type="date" 
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-900 placeholder-gray-400 transition"
+              />
+            </div>
           </div>
 
           <button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg font-bold hover:opacity-90 transition shadow-lg text-lg">

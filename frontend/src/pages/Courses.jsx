@@ -21,7 +21,6 @@ const Courses = () => {
   const handleEnroll = async (courseId) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Please login to enroll');
       navigate('/login');
       return;
     }
@@ -33,10 +32,12 @@ const Courses = () => {
           token: token
         }
       });
-      alert('Successfully enrolled!');
+      navigate('/dashboard');
     } catch (error) {
       console.error(error);
-      alert('Enrollment failed. Already purchased?');
+      if (error.response && error.response.status === 403) {
+         navigate('/dashboard'); // Optional: redirect if already bought
+      }
     }
   };
 

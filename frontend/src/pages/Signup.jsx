@@ -9,6 +9,7 @@ const Signup = () => {
     email: '',
     password: ''
   });
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,13 +18,12 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const endpoint = isAdmin ? '/admin/signup' : '/user/signup';
     try {
-      await axios.post('http://localhost:3000/api/v1/user/signup', formData);
-      alert('Signup successful! Please login.');
+      await axios.post(`http://localhost:3000/api/v1${endpoint}`, formData);
       navigate('/login');
     } catch (error) {
       console.error(error);
-      alert('Signup failed. Please try again.');
     }
   };
 
@@ -92,6 +92,18 @@ const Signup = () => {
               placeholder="••••••••"
             />
           </div>
+
+          <div className="flex items-center gap-2">
+            <input 
+              type="checkbox" 
+              id="adminCheckbox"
+              checked={isAdmin}
+              onChange={(e) => setIsAdmin(e.target.checked)}
+              className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500"
+            />
+            <label htmlFor="adminCheckbox" className="text-sm font-medium text-gray-700">Signup as Admin</label>
+          </div>
+
           <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-bold hover:opacity-90 transition shadow-lg mt-4">
             Sign Up Free
           </button>

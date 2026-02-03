@@ -21,6 +21,7 @@ const courseSchema = new Schema({
   description: String,
   price: Number,
   imageUrl: String,
+  date: Date,
   creatorId: ObjectId,
 });
 
