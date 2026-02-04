@@ -1,131 +1,123 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import DashboardLayout from '../components/DashboardLayout';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { PlayCircle, Clock, Trophy } from "lucide-react";
 
 const UserDashboard = () => {
-  const [purchases, setPurchases] = useState([]);
-  const [userName, setUserName] = useState('');
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem('token');
-      try {
-        const purchasesRes = await axios.get('http://localhost:3000/api/v1/user/purchases', {
-          headers: { token }
-        });
-        setPurchases(purchasesRes.data.coursesData);
-
-        const meRes = await axios.get('http://localhost:3000/api/v1/user/me', {
-          headers: { token }
-        });
-        setUserName(meRes.data.firstName);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('isAdmin');
-    navigate('/');
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen w-full bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
-  }
+  // Mock data
+  const courses = [
+    {
+      id: 1,
+      title: "Complete React Developer Course 2024",
+      instructor: "Aditya Kushwaha",
+      progress: 65,
+      totalLessons: 45,
+      completedLessons: 29,
+      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+      lastAccessed: "2 hours ago"
+    },
+    {
+      id: 2,
+      title: "Backend Masterclass with Node.js",
+      instructor: "John Doe",
+      progress: 10,
+      totalLessons: 60,
+      completedLessons: 6,
+      image: "https://images.unsplash.com/photo-1627398242450-8df41da6982e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+      lastAccessed: "1 day ago"
+    },
+     {
+      id: 3,
+      title: "Figma UI/UX Design Essentials",
+      instructor: "Jane Smith",
+      progress: 0,
+      totalLessons: 25,
+      completedLessons: 0,
+      image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+      lastAccessed: "Never"
+    }
+  ];
 
   return (
-    <div className="min-h-screen w-full bg-white relative overflow-hidden">
-      {/* Background */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, #f0f0f0 1px, transparent 1px),
-            linear-gradient(to bottom, #f0f0f0 1px, transparent 1px),
-            radial-gradient(circle 600px at 0% 200px, #d5c5ff, transparent),
-            radial-gradient(circle 600px at 100% 200px, #d5c5ff, transparent)
-          `,
-          backgroundSize: "20px 20px, 20px 20px, 100% 100%, 100% 100%",
-        }}
-      />
-
-      <div className="relative z-10 p-8">
-        <div className="flex justify-between items-center mb-12 max-w-7xl mx-auto">
-          <div>
-            <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-              My Learning
-            </h1>
-            {userName && <p className="text-gray-600 mt-2 text-lg">Welcome back, {userName}!</p>}
-          </div>
-          <div className="flex gap-4">
-            <Link 
-              to="/courses" 
-              className="px-6 py-3 bg-white border border-purple-100 text-purple-600 rounded-lg font-bold shadow-sm hover:shadow-md transition"
-            >
-              Browse More Courses
-            </Link>
-            <button 
-              onClick={handleLogout}
-              className="px-6 py-3 bg-red-50 text-red-600 border border-red-100 rounded-lg font-bold shadow-sm hover:bg-red-100 transition"
-            >
-              Logout
-            </button>
-          </div>
+    <DashboardLayout type="user">
+      <div className="flex flex-col gap-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground">Welcome back, ready to learn something new?</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {purchases.length === 0 ? (
-            <div className="col-span-full text-center py-20">
-              <p className="text-2xl text-gray-500 mb-6">You haven't enrolled in any courses yet.</p>
-              <Link to="/courses" className="text-purple-600 font-bold hover:underline">Browse Courses</Link>
-            </div>
-          ) : (
-            purchases.map((course) => (
-              <div key={course._id} className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                <div className="h-48 overflow-hidden">
-                  <img 
-                    src={course.imageUrl} 
-                    alt={course.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                  />
-                </div>
-                <div className="p-6">
-                  <h2 className="text-xl font-bold mb-2 text-gray-900">{course.title}</h2>
-                  <p className="text-gray-500 mb-4 line-clamp-2 text-sm">{course.description}</p>
-                  
-                  {/* Progress Bar (Mock) */}
-                  <div className="mb-4">
-                    <div className="flex justify-between text-xs font-semibold text-gray-600 mb-1">
-                      <span>Progress</span>
-                      <span>15%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                       <div className="bg-purple-600 h-2 rounded-full" style={{ width: '15%' }}></div>
-                    </div>
-                  </div>
+        {/* Stats Section */}
+        <div className="grid gap-4 md:grid-cols-3">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Courses in Progress</CardTitle>
+              <PlayCircle className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{courses.filter(c => c.progress > 0 && c.progress < 100).length}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Completed Courses</CardTitle>
+              <Trophy className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{courses.filter(c => c.progress === 100).length}</div>
+            </CardContent>
+          </Card>
+           <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Learning Hours</CardTitle>
+              <Clock className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">12.5h</div>
+            </CardContent>
+          </Card>
+        </div>
 
-                  <button className="w-full py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition mt-2 shadow-md">
-                    Continue Learning
-                  </button>
+        {/* Courses Section */}
+        <div>
+          <h2 className="text-xl font-semibold mb-4">My Learning</h2>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {courses.map((course) => (
+              <Card key={course.id} className="overflow-hidden flex flex-col">
+                <div className="aspect-video w-full overflow-hidden bg-muted">
+                    <img 
+                      src={course.image} 
+                      alt={course.title} 
+                      className="h-full w-full object-cover transition-transform hover:scale-105"
+                    />
                 </div>
-              </div>
-            ))
-          )}
+                <CardHeader className="p-4">
+                  <div className="flex justify-between items-start">
+                     <Badge variant={course.progress > 0 ? "secondary" : "outline"}>
+                        {course.progress === 0 ? "Not Started" : course.progress === 100 ? "Completed" : "In Progress"}
+                     </Badge>
+                  </div>
+                  <CardTitle className="line-clamp-2 text-lg mt-2">{course.title}</CardTitle>
+                  <p className="text-sm text-muted-foreground">{course.instructor}</p>
+                </CardHeader>
+                <CardContent className="p-4 pt-0 mt-auto">
+                   <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{course.progress}% Complete</span>
+                    <span>{course.completedLessons}/{course.totalLessons} Lessons</span>
+                   </div>
+                   <Progress value={course.progress} className="h-2"/>
+                   <Button className="w-full mt-4" size="sm">
+                     {course.progress === 0 ? "Start Learning" : "Continue"}
+                   </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
-
 export default UserDashboard;

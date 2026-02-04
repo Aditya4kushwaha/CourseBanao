@@ -86,6 +86,18 @@ userRouter.get("/purchases", userMiddleware, async (req, res) => {
   });
 });
 
+userRouter.put("/purchase/status", userMiddleware, async (req, res) => {
+  const userId = req.userId;
+  const { courseId, isCompleted } = req.body;
+  
+  await purchaseModel.updateOne(
+    { userId, courseId },
+    { isCompleted }
+  );
+
+  res.json({ message: "Status updated" });
+});
+
 module.exports = {
   userRouter: userRouter,
 };
