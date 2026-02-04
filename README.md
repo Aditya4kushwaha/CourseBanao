@@ -1,4 +1,4 @@
-# 🎓 Course Selling App (MERN Stack)
+# 🎓 Course Banao App (MERN Stack)
 
 A **full-stack Course Selling Platform** where users can browse and purchase courses, and admins can manage course content.  
 The project consists of a **Node.js + Express backend** and a **React frontend**, implementing authentication, authorization, and course management.
@@ -33,7 +33,7 @@ The project consists of a **Node.js + Express backend** and a **React frontend**
 ### Frontend
 - React.js
 - Axios
-- CSS / Tailwind CSS (optional)
+- Tailwind CSS 
 
 ### Backend
 - Node.js
