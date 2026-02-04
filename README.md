@@ -33,7 +33,7 @@ The project consists of a **Node.js + Express backend** and a **React frontend**
 ### Frontend
 - React.js
 - Axios
-- CSS / Tailwind CSS (optional)
+- Tailwind CSS 
 
 ### Backend
 - Node.js
